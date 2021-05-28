@@ -87,7 +87,7 @@
     <Compile Include="TankDK\WeaponTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Shadow Include="Test References\Rawr.Base.accessor" />
+    <None Include="Test References\Rawr.Base.accessor" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Rawr.Base\Rawr.Base.csproj">
