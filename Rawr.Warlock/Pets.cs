@@ -480,7 +480,7 @@ namespace Rawr.Warlock {
             BaseMana = 1052f;
             BaseSpellCrit = .01f;
 
-            SpecialBaseDamage = (213f + 239f) / 2f;
+            SpecialBaseDamage = ((213f + 239f) / 2f) * (1f + Mommy.Talents.ImprovedImp * 0.1f);
             SpecialDamagePerSpellPower = .79f;
             SpecialCastTime = 2.5f - Mommy.Talents.DemonicPower * .25f;
         }
@@ -506,7 +506,6 @@ namespace Rawr.Warlock {
             // multipliers go into SpecialModifiers
             SpecialModifiers.AddMultiplicativeMultiplier(
                 Stats.BonusFireDamageMultiplier);
-            SpecialModifiers.AddAdditiveMultiplier(.1f * talents.ImprovedImp);
             SpecialModifiers.AddAdditiveMultiplier(.04f * talents.UnholyPower);
             SpecialModifiers.AddMultiplicativeMultiplier(demonologist);
             SpecialModifiers.AddAdditiveMultiplier(.1f * talents.EmpoweredImp);
