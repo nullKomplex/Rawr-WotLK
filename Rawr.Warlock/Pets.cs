@@ -480,8 +480,8 @@ namespace Rawr.Warlock {
             BaseMana = 1052f;
             BaseSpellCrit = .01f;
 
-            SpecialBaseDamage = ((213f + 239f) / 2f) * (1f + Mommy.Talents.ImprovedImp * 0.1f);
-            SpecialDamagePerSpellPower = .79f;
+            SpecialBaseDamage = ((203f + 227f) / 2f) * (1f + Mommy.Talents.ImprovedImp * 0.1f);
+            SpecialDamagePerSpellPower = .78f;
             SpecialCastTime = 2.5f - Mommy.Talents.DemonicPower * .25f;
         }
 
