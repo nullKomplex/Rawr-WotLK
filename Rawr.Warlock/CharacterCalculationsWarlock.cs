@@ -502,8 +502,12 @@ namespace Rawr.Warlock {
         public float GetExecutePercentage() {
 
             string executeName = Options.GetActiveRotation().Execute;
-            if (executeName == null || executeName == "" || executeName.Equals("Drain Soul")) {
+            if (executeName == null || executeName == "") {
                 return 0f;
+            }
+
+            if (executeName.Equals("Drain Soul")) {
+                return Options.TwentyFive;
             }
 
             Spell execute = GetSpell(executeName);
@@ -516,6 +520,8 @@ namespace Rawr.Warlock {
             } else {
                 return Options.TwentyFive;
             }
+
+            return 0f;
         }
 
         private float CalcAddedCritBuff() {

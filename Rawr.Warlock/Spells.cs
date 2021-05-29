@@ -1710,5 +1710,36 @@ namespace Rawr.Warlock {
             }
         }
     }
+    public class DrainSoul : Spell {
+
+        public DrainSoul(CharacterCalculationsWarlock mommy)
+            : base(
+                mommy,
+                MagicSchool.Shadow,
+                SpellTree.Affliction,
+                .14f, // percentBaseMana,
+                3.0f, // baseCastTime,
+                0f, // cooldown,
+                0f, // recastPeriod,
+                77f, // lowDirectDamage,
+                142f, // highDirectDamage,
+                0.4286f, // directCoefficient,
+                0f, // addedDirectMultiplier,
+                0f, // bonusCritChance,
+                0f) { // bonus crit multiplier
+
+        }
+
+        public override void FinalizeSpellModifiers() {
+
+            base.FinalizeSpellModifiers();
+            float damageModifier = 0f;
+            if (IsCastDuringExecute()) {
+                damageModifier += 3f;
+            }
+
+            SpellModifiers.AddMultiplicativeMultiplier(damageModifier);
+        }
+    }
 }
 //3456789 223456789 323456789 423456789 523456789 623456789 723456789 8234567890

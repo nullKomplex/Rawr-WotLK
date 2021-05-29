@@ -110,6 +110,7 @@ namespace Rawr.Warlock {
                         "Affliction:Curse Of Agony",
                         "Affliction:Curse Of Doom",
                         "Affliction:Curse Of The Elements",
+                        "Affliction:Drain Soul",
                         "Affliction:Haunt",
                         "Affliction:Life Tap",
                         "Affliction:Unstable Affliction",
