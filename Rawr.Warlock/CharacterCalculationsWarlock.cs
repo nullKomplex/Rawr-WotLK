@@ -1047,6 +1047,8 @@ namespace Rawr.Warlock {
                 Stats.BonusShadowDamageMultiplier);
             modifiers.AddAdditiveMultiplier(
                 Talents.ShadowMastery * .03f);
+            modifiers.AddAdditiveMultiplier(
+                Talents.DeathsEmbrace * .04f * Options.ThirtyFive); // Average it out. Everyone else does it.
             if (Options.GetActiveRotation().Contains("Shadow Bolt")
                 || (Options.GetActiveRotation().Contains("Haunt")
                     && Talents.Haunt > 0)) {

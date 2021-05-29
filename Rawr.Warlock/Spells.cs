@@ -1743,8 +1743,13 @@ namespace Rawr.Warlock {
             damageModifier *= 1f + (Mommy.Talents.SoulSiphon * 0.09f); // While not accurate, I think it's safe to assume 3 DoTs active
                                                                        // given the added complexity required to check otherwise.
 
+            damageModifier *= 1f + (Mommy.Talents.DeathsEmbrace * 
+                                    0.04f * (1f - 0.25f));  // This is a rough estimation of how much this talent increases the damage
+                                                            // for Drain Soul, on top of the fact that it already modifies all shadow
+                                                            // damage by an approximation based on execute.
+
             if (IsCastDuringExecute()) {
-                damageModifier *= 4f;
+                damageModifier *= 4f; // This probably won't ever be cast outside of execute,  but better safe than sorry.
             }
 
             damageModifier -= 1f; // AddMultiplicatedMultiplier adds the value to 1f already.
