@@ -1712,12 +1712,17 @@ namespace Rawr.Warlock {
     }
     public class DrainSoul : Spell {
 
+        // Rawr doesn't seem to have a method at which to implement a channeled ability. Instead this simply pretends Drain Soul is a
+        // 3 second cast time ability, as it normally ticks every 3 seconds.
+        //
+        // TODO: Figure out mana cost problems.
+
         public DrainSoul(CharacterCalculationsWarlock mommy)
             : base(
                 mommy,
                 MagicSchool.Shadow,
                 SpellTree.Affliction,
-                .14f, // percentBaseMana,
+                .07f, // percentBaseMana, - 0.14f is the base case time. Adjusted for channeled spell hack.
                 3.0f, // baseCastTime,
                 0f, // cooldown,
                 0f, // recastPeriod,
@@ -1733,11 +1738,16 @@ namespace Rawr.Warlock {
         public override void FinalizeSpellModifiers() {
 
             base.FinalizeSpellModifiers();
-            float damageModifier = 0f;
+            float damageModifier = 1f;
+
+            damageModifier *= 1f + (Mommy.Talents.SoulSiphon * 0.09f); // While not accurate, I think it's safe to assume 3 DoTs active
+                                                                       // given the added complexity required to check otherwise.
+
             if (IsCastDuringExecute()) {
-                damageModifier += 3f;
+                damageModifier *= 4f;
             }
 
+            damageModifier -= 1f; // AddMultiplicatedMultiplier adds the value to 1f already.
             SpellModifiers.AddMultiplicativeMultiplier(damageModifier);
         }
     }
