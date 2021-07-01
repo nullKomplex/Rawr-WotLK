@@ -110,7 +110,8 @@ namespace Rawr.DPSDK
                     if (talents.GlyphofDisease)
                     {
                         #region GoD
-                        if (((FF < meleeGCD * PhysicalGCDMultiplier || BP < meleeGCD * PhysicalGCDMultiplier) ||
+                        if (((FF < (10000 - (talents.Epidemic * 3000)) || BP < (10000 - (talents.Epidemic * 3000))) ||
+                            
                             (FF < BloodRune1 && FF < BloodRune2 && FF < DeathRune1 && FF > DeathRune2) ||
                             (FF < BloodRune1 && FF < BloodRune2 && FF > DeathRune1 && FF < DeathRune2) ||
                             (FF < BloodRune1 && FF > BloodRune2 && FF < DeathRune1 && FF < DeathRune2) ||
@@ -125,7 +126,7 @@ namespace Rawr.DPSDK
                             if (BloodRune1 < 0)
                             {
                                 BloodRune1 += 10000;
-                                if (talents.BloodOfTheNorth == 5)
+                                if (talents.BloodOfTheNorth == 3)
                                 {
                                     DeathRune1 = BloodRune1;
                                     BloodRune1 = fightDuration;
@@ -135,7 +136,7 @@ namespace Rawr.DPSDK
                             else if (BloodRune2 < 0)
                             {
                                 BloodRune2 += 10000;
-                                if (talents.BloodOfTheNorth == 5)
+                                if (talents.BloodOfTheNorth == 3)
                                 {
                                     DeathRune2 = BloodRune2;
                                     BloodRune2 = fightDuration;
@@ -144,23 +145,31 @@ namespace Rawr.DPSDK
                             }
                             else if (DeathRune1 < 0)
                             {
-                                BloodRune1 += 10000;
-                                DeathRune1 = fightDuration + 1;
-                                if (talents.BloodOfTheNorth == 5)
+                                if (talents.BloodOfTheNorth == 3)
                                 {
-                                    DeathRune1 = BloodRune1;
+                                    DeathRune1 += 10000;
                                     BloodRune1 = fightDuration;
+                                }
+                                else
+                                {
+                                    DeathRune1 += 10000;
+                                    BloodRune1 = DeathRune1;
+                                    DeathRune1 = fightDuration;
                                 }
                                 pest = true;
                             }
                             else if (DeathRune2 < 0)
                             {
-                                BloodRune2 += 10000;
-                                DeathRune2 = fightDuration + 1;
-                                if (talents.BloodOfTheNorth == 5)
+                                if (talents.BloodOfTheNorth == 3)
                                 {
-                                    DeathRune2 = BloodRune2;
+                                    DeathRune2 += 10000;
                                     BloodRune2 = fightDuration;
+                                }
+                                else
+                                {
+                                    DeathRune2 += 10000;
+                                    BloodRune2 = DeathRune2;
+                                    DeathRune2 = fightDuration;
                                 }
                                 pest = true;
                             }
@@ -281,20 +290,20 @@ namespace Rawr.DPSDK
                         UnholyRune2 += 10000;
                         Oblit = true;
                     }
-                    else if (FrostRune1 < 0 && DeathRune1 < 0)
+                    /*else if (FrostRune1 < 0 && DeathRune1 < 0 && (talents.Epidemic == 2 || !talents.GlyphofDisease))
                     {
                         FrostRune1 += 10000;
                         BloodRune1 = DeathRune1 + 10000;
                         DeathRune1 = fightDuration + 1;
                         Oblit = true;
                     }
-                    else if (FrostRune1 < 0 && DeathRune2 < 0)
+                    else if (FrostRune1 < 0 && DeathRune2 < 0 && (talents.Epidemic == 2 || !talents.GlyphofDisease))
                     {
                         FrostRune1 += 10000;
                         BloodRune2 = DeathRune2 + 10000;
                         DeathRune2 = fightDuration + 1;
                         Oblit = true;
-                    }
+                    }*/
                     else if (FrostRune2 < 0 && UnholyRune1 < 0)
                     {
                         FrostRune2 += 10000;
@@ -307,14 +316,14 @@ namespace Rawr.DPSDK
                         UnholyRune2 += 10000;
                         Oblit = true;
                     }
-                    else if (FrostRune2 < 0 && DeathRune1 < 0)
+                    /*else if (FrostRune2 < 0 && DeathRune1 < 0 && (talents.Epidemic == 2 || !talents.GlyphofDisease))
                     {
                         FrostRune2 += 10000;
                         BloodRune1 = DeathRune1 + 10000;
                         DeathRune1 = fightDuration + 1;
                         Oblit = true;
                     }
-                    else if (FrostRune2 < 0 && DeathRune2 < 0)
+                    else if (FrostRune2 < 0 && DeathRune2 < 0 && (talents.Epidemic == 2 || !talents.GlyphofDisease))
                     {
                         FrostRune2 += 10000;
                         BloodRune2 = DeathRune2 + 10000;
@@ -322,20 +331,20 @@ namespace Rawr.DPSDK
                         Oblit = true;
                     }
 
-                    else if (DeathRune1 < 0 && UnholyRune1 < 0)
+                    else if (DeathRune1 < 0 && UnholyRune1 < 0 && (talents.Epidemic == 2 || !talents.GlyphofDisease))
                     {
                         BloodRune1 = DeathRune1 + 10000;
                         DeathRune1 = fightDuration + 1;
                         UnholyRune1 += 10000;
                         Oblit = true;
                     }
-                    else if (DeathRune1 < 0 && UnholyRune2 < 0)
+                    else if (DeathRune1 < 0 && UnholyRune2 < 0 && (talents.Epidemic == 2 || !talents.GlyphofDisease))
                     {
                         BloodRune1 = DeathRune1 + 10000;
                         DeathRune1 = fightDuration + 1;
                         UnholyRune2 += 10000;
                         Oblit = true;
-                    }
+                    }*/
                     else if (DeathRune1 < 0 && DeathRune2 < 0)
                     {
                         BloodRune1 = DeathRune1 + 10000;
@@ -350,7 +359,7 @@ namespace Rawr.DPSDK
                     #region Blood Strike
                     else if (BloodRune1 < 0)
                     {
-                        if (talents.BloodOfTheNorth == 5)
+                        if (talents.BloodOfTheNorth == 3)
                         {
                             DeathRune1 = BloodRune1 + 10000;
                             BloodRune1 = fightDuration + 1;
@@ -363,7 +372,7 @@ namespace Rawr.DPSDK
                     }
                     else if (BloodRune2 < 0)
                     {
-                        if (talents.BloodOfTheNorth == 5)
+                        if (talents.BloodOfTheNorth == 3)
                         {
                             DeathRune2 = BloodRune2 + 10000;
                             BloodRune2 = fightDuration + 1;
@@ -371,6 +380,34 @@ namespace Rawr.DPSDK
                         else
                         {
                             BloodRune2 += 10000;
+                        }
+                        BS = true;
+                    }
+                    else if (DeathRune1 < 0 && talents.Epidemic == 0)
+                    {
+                        if (talents.BloodOfTheNorth == 3)
+                        {
+                            DeathRune1 += 10000;
+                            BloodRune1 = fightDuration + 1;
+                        }
+                        else
+                        {
+                            BloodRune1 = DeathRune1 + 10000;
+                            DeathRune1 = fightDuration + 1;
+                        }
+                        BS = true;
+                    }
+                    else if (BloodRune2 < 0 && talents.Epidemic == 0)
+                    {
+                        if (talents.BloodOfTheNorth == 3)
+                        {
+                            DeathRune2 += 10000;
+                            BloodRune2 = fightDuration + 1;
+                        }
+                        else
+                        {
+                            BloodRune2 = DeathRune2 + 10000;
+                            DeathRune2 = fightDuration + 1;
                         }
                         BS = true;
                     }
@@ -439,8 +476,8 @@ namespace Rawr.DPSDK
                 }
                 if (pest)
                 {
-                    FF = (FF % 3000) + 15000 + talents.Epidemic * 3000;
-                    BP = (BP % 3000) + 15000 + talents.Epidemic * 3000;
+                    FF = 16000 + talents.Epidemic * 3000;
+                    BP = 16000 + talents.Epidemic * 3000;
                     GCDTime = (int)(spellGCD * SpellGCDMultiplier);
                     occurence.Pestilence++;
                     pest = false;
