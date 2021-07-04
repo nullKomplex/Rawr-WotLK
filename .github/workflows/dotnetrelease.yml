@@ -1,0 +1,37 @@
+name: .NET Release Candidate
+
+on:
+  push:
+    tags:
+    - "v*"
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout files
+      uses: actions/checkout@v2
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.0.2
+      
+    - name: Install .NET Framework Core
+      run: Install-WindowsFeature Net-Framework-Core
+    - name: Install .NET Framework Features
+      run: Install-WindowsFeature Net-Framework-Features
+      
+    - name: Build
+      run: msbuild "Rawr.sln" /p:Configuration=Release -m
+      
+    - name: Create Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Rawr
+        path: bin\Release
+    - uses: actions/checkout@v2
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "artifacts/Rawr.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}
+
