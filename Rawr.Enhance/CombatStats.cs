@@ -376,10 +376,10 @@ namespace Rawr.Enhance
                 staticShocksPerSecond = (hitsPerSMH + hitsPerSOH) * staticShockChance;
                 flameTongueHitsPerSecond = (_calcOpts.MainhandImbue == "Flametongue" ? HitsPerSMH : 0f) +
                     ((_calcOpts.OffhandImbue == "Flametongue" && _talents.DualWield == 1) ? HitsPerSOH : 0f);
-                spellAttacksPerSec = (1f / secondsToFiveStack + 1f / shockSpeed + 1f / fireNovaSpeed + staticShocksPerSecond) // + flameTongueHitsPerSecond)
+                spellAttacksPerSec = (1f / secondsToFiveStack + 1f / shockSpeed + 1f / fireNovaSpeed + staticShocksPerSecond + flameTongueHitsPerSecond)
                                    * (1f - chanceSpellMiss);
-                float couldCritSpellsPerS = spellAttacksPerSec - staticShocksPerSecond; // LS procs from Static Shock cannot crit
-                edUptime = 1f - (float)Math.Pow(1 - chanceSpellCrit, 10 * couldCritSpellsPerS);
+                float couldCritSpellsPerS = spellAttacksPerSec - staticShocksPerSecond * (1f - chanceSpellMiss); // LS procs from Static Shock cannot crit
+                edUptime = 1f - (float)Math.Pow(1 - chanceSpellCrit, 10 * (couldCritSpellsPerS - flameTongueHitsPerSecond * (1f - chanceSpellMiss)));
                 averageMeleeCritChance = (chanceWhiteCritMH + chanceWhiteCritOH + chanceYellowCritMH + chanceYellowCritOH) / 4f + edUptime * edCritBonus;
             }
             float yellowAttacksPerSecond = hitsPerSWF + hitsPerSMHSS;
@@ -394,8 +394,8 @@ namespace Rawr.Enhance
             meleeCritsPerSec = (whiteHitsPerSMH * chanceWhiteCritMH) + (whiteHitsPerSOH * chanceWhiteCritOH) + 
                                (yellowHitsPerSMH * chanceYellowCritMH) + (yellowHitsPerSOH * chanceYellowCritOH) +
                                (_stats.MoteOfAnger * 2 * AverageWhiteCritChance);
-            spellCritsPerSec = spellAttacksPerSec * ChanceSpellCrit;
-            spellCastsPerSec = spellAttacksPerSec;
+            spellCritsPerSec = (spellAttacksPerSec - staticShocksPerSecond * (1f - chanceSpellMiss)) * ChanceSpellCrit;
+            spellCastsPerSec = spellAttacksPerSec - flameTongueHitsPerSecond * (1f - chanceSpellMiss);
             spellMissesPerSec = spellAttacksPerSec * chanceSpellMiss;
             chanceMeleeHit = meleeAttacksPerSec / (swingsPerSMHMelee + swingsPerSOHMelee + 2f * wfProcsPerSecond + .25f + 1f/6f);
             maxMana = _stats.Mana;

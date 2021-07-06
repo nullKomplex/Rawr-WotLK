@@ -386,6 +386,13 @@ namespace Rawr.Enhance
             set { _t10_4Uptime = value; }
         }
 
+        private float _procDamage;
+        public float ProcDamage
+        {
+            get { return _procDamage; }
+            set { _procDamage = value; }
+        }
+
         public List<Buff> ActiveBuffs { get; set; }
         #endregion
 
@@ -489,7 +496,7 @@ namespace Rawr.Enhance
             dictValues.Add("Fire Totem Uptime", FireTotemUptime.ToString("F2", CultureInfo.InvariantCulture) + "%");
             dictValues.Add("Tier 10 2 pc Uptime", T10_2Uptime.ToString("F2", CultureInfo.InvariantCulture) + "%");
             dictValues.Add("Tier 10 4 pc Uptime", T10_4Uptime.ToString("F2", CultureInfo.InvariantCulture) + "%");
-            
+
             dictValues.Add("DPS Points", DPSPoints.ToString("F2", CultureInfo.InvariantCulture));
             dictValues.Add("Survivability Points", SurvivabilityPoints.ToString("F2", CultureInfo.InvariantCulture));
             dictValues.Add("Overall Points", OverallPoints.ToString("F2", CultureInfo.InvariantCulture));
@@ -507,6 +514,7 @@ namespace Rawr.Enhance
             dictValues.Add("Fire Elemental", FireElemental.getDPSOutput());
             dictValues.Add("Lightning Shield", dpsOutputFormat(LightningShield, DPSPoints, false));
             dictValues.Add("Lava Lash", dpsOutputFormat(LavaLash, DPSPoints, true));
+            dictValues.Add("Damage dealt by Procs", dpsOutputFormat(ProcDamage, DPSPoints));
             dictValues.Add("Total DPS", DPSPoints.ToString("F2", CultureInfo.InvariantCulture));
 
             dictValues.Add("Enhance Version", _version);

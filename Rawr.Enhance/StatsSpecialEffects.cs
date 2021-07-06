@@ -294,5 +294,132 @@ namespace Rawr.Enhance
                 statsAverage.HasteRating += statsAverage.DeathbringerProc / 3f;
             }
         }
+        /* Manually calculating results in higher DPS. Not sure if it's more or less accurate.
+        
+        public float getSpecialEffectsDamage()
+        {
+            float totalDPS = 0f;
+            foreach (SpecialEffect effect in _stats.SpecialEffects())
+            {
+                int triggerType = (int)effect.Trigger;
+                string debug1 = effect.ToString();
+                // TODO: Modifiers
+                float damagePerProc = (effect.Stats.ShadowDamage
+                                + effect.Stats.FireDamage
+                                + effect.Stats.NatureDamage
+                                + effect.Stats.HolyDamage
+                                + effect.Stats.FrostDamage
+                                + effect.Stats.ArcaneDamage
+                                + effect.Stats.PhysicalDamage
+                                + effect.Stats.ValkyrDamage);
+
+                if (effect.Trigger == Trigger.Use)
+                {
+                    totalDPS += damagePerProc / effect.Cooldown;
+                }
+                else
+                {
+                    SetTriggerChanceAndSpeed(effect);
+                    totalDPS += (damagePerProc / trigger) * chance;
+                }
+            }
+            return totalDPS;
+        }*/
+        
+        public void CalculateTriggers(Character charStruct, Dictionary<Trigger, float>  intervals, Dictionary<Trigger, float>  chances)
+        {
+            foreach (Trigger t in Enum.GetValues(typeof(Trigger)))
+            {
+                float trigger = 0f;
+                float chance = 0f;
+                switch (t)
+                {
+                    case Trigger.DamageDone:
+                        trigger = (_cs.HastedMHSpeed + 1f / _cs.GetSpellAttacksPerSec()) / 2f;
+                        chance = (float)Math.Min(1.0f, _cs.AverageWhiteHitChance + _cs.ChanceSpellHit); // limit to 100% chance
+                        unhastedAttackSpeed = _cs.UnhastedMHSpeed;
+                        break;
+                    case Trigger.DamageOrHealingDone:
+                        // Need to add Self Heals
+                        trigger = (_cs.HastedMHSpeed + 1f / _cs.GetSpellAttacksPerSec()) / 2f;
+                        chance = (float)Math.Min(1.0f, _cs.AverageWhiteHitChance + _cs.ChanceSpellHit); // limit to 100% chance
+                        unhastedAttackSpeed = _cs.UnhastedMHSpeed;
+                        break;
+                    case Trigger.MeleeCrit:
+                    case Trigger.PhysicalCrit:
+                        trigger = _cs.HastedMHSpeed;
+                        chance = _cs.AverageWhiteCritChance;
+                        unhastedAttackSpeed = _cs.UnhastedMHSpeed;
+                        break;
+                    case Trigger.MeleeHit:
+                    case Trigger.PhysicalHit:
+                        trigger = _cs.HastedMHSpeed;
+                        chance = _cs.AverageWhiteHitChance;
+                        unhastedAttackSpeed = _cs.UnhastedMHSpeed;
+                        break;
+                    case Trigger.MeleeAttack:
+                        if (_character.ShamanTalents.DualWield == 1)
+                        {
+                            trigger = (_cs.HastedMHSpeed + _cs.HastedOHSpeed) / 2;
+                            chance = 1f;
+                            unhastedAttackSpeed = (_cs.UnhastedMHSpeed + _cs.UnhastedOHSpeed) / 2;
+                        }
+                        else
+                        {
+                            trigger = _cs.HastedMHSpeed;
+                            chance = 1f;
+                            unhastedAttackSpeed = _cs.UnhastedMHSpeed;
+                        }
+                        break;
+                    case Trigger.DamageSpellCast:
+                    case Trigger.SpellCast:
+                        trigger = 1f / _cs.GetSpellCastsPerSec();
+                        chance = 1f;
+                        break;
+                    case Trigger.DamageSpellHit:
+                    case Trigger.SpellHit:
+                        trigger = 1f / _cs.GetSpellAttacksPerSec();
+                        chance = _cs.ChanceSpellHit;
+                        break;
+                    case Trigger.DamageSpellCrit:
+                    case Trigger.SpellCrit:
+                        trigger = 1f / _cs.GetSpellCritsPerSec();
+                        chance = _cs.ChanceSpellCrit;
+                        break;
+                    case Trigger.SpellMiss:
+                        trigger = 1f / _cs.GetSpellMissesPerSec();
+                        chance = 1 - _cs.ChanceSpellHit;
+                        break;
+                    case Trigger.ShamanLightningBolt:
+                        trigger = 1f / _cs.AbilityCooldown(EnhanceAbility.LightningBolt);
+                        chance = _cs.ChanceSpellHit;
+                        break;
+                    case Trigger.ShamanStormStrike:
+                        trigger = 1f / _cs.AbilityCooldown(EnhanceAbility.StormStrike);
+                        chance = _cs.ChanceYellowHitMH;
+                        break;
+                    case Trigger.ShamanShock:
+                        trigger = 1f / _cs.AbilityCooldown(EnhanceAbility.EarthShock);
+                        chance = _cs.ChanceSpellHit;
+                        break;
+                    case Trigger.ShamanLavaLash:
+                        trigger = 1f / _cs.AbilityCooldown(EnhanceAbility.LavaLash);
+                        chance = _cs.ChanceYellowHitOH;
+                        unhastedAttackSpeed = _cs.UnhastedOHSpeed;
+                        break;
+                    case Trigger.ShamanShamanisticRage:
+                        trigger = 1f / _cs.AbilityCooldown(EnhanceAbility.ShamanisticRage);
+                        chance = 1f;
+                        break;
+                    case Trigger.ShamanFlameShockDoTTick:
+                    case Trigger.DoTTick:
+                        trigger = 1f / _cs.AbilityCooldown(EnhanceAbility.FlameShock);
+                        chance = 1f;
+                        break;
+                }
+                intervals[t] = trigger;
+                chances[t] = chance;
+            }
+        }
     }
 }

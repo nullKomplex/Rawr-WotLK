@@ -93,6 +93,7 @@ namespace Rawr.Enhance
                     "Attacks:Fire Elemental",
                     "Attacks:Lightning Shield",
                     "Attacks:Spirit Wolf",
+                    "Attacks:Damage dealt by Procs",
                     "Attacks:Total DPS",
                     "Module Version:Enhance Version"
 				};
@@ -585,10 +586,38 @@ namespace Rawr.Enhance
                 calculatedStats.FireElemental = new FireElemental(0, 0, 0, cs, 0, 0, 0, 0, 0);
             float dpsFireElemental = calculatedStats.FireElemental.getDPS();
             #endregion
+
+            #region SpecialEffects
+            float dpsSE = 0f; //se.getSpecialEffectsDamage();
+
+            // Special Damage Procs, like Bandit's Insignia or Hand-mounted Pyro Rockets
+            Dictionary<Trigger, float> triggerIntervals = new Dictionary<Trigger, float>();
+            Dictionary<Trigger, float> triggerChances = new Dictionary<Trigger, float>();
+            se.CalculateTriggers(character, triggerIntervals, triggerChances);
+            DamageProcs.SpecialDamageProcs SDP;
+            SDP = new Rawr.DamageProcs.SpecialDamageProcs(character, stats, calculatedStats.TargetLevel - character.Level,
+                new List<SpecialEffect>(stats.SpecialEffects()),
+                triggerIntervals, triggerChances,
+#if RAWR3 || SILVERLIGHT
+                    bossOpts.BerserkTimer,
+#else
+                    calcOpts.FightLength,
+#endif
+                    cs.DamageReduction);
+
+            dpsSE = SDP.CalculateAll();
+            /*dpsSE += SDP.Calculate(ItemDamageType.Physical);
+            dpsSE += SDP.Calculate(ItemDamageType.Shadow);
+            dpsSE += SDP.Calculate(ItemDamageType.Holy);
+            dpsSE += SDP.Calculate(ItemDamageType.Arcane);
+            dpsSE += SDP.Calculate(ItemDamageType.Nature);
+            dpsSE += SDP.Calculate(ItemDamageType.Fire);
+            dpsSE += SDP.Calculate(ItemDamageType.Frost);*/
+            #endregion
             #endregion
 
             #region Set CalculatedStats
-            calculatedStats.DPSPoints = dpsMelee + dpsSS + dpsLL + dpsES + dpsFS + dpsLB + dpsWF + dpsLS + dpsFireTotem + dpsFireNova + dpsFT + dpsDogs + dpsFireElemental;
+            calculatedStats.DPSPoints = dpsMelee + dpsSS + dpsLL + dpsES + dpsFS + dpsLB + dpsWF + dpsLS + dpsFireTotem + dpsFireNova + dpsFT + dpsDogs + dpsFireElemental + dpsSE;
             calculatedStats.SurvivabilityPoints = stats.Health * 0.02f;
             calculatedStats.OverallPoints = calculatedStats.DPSPoints + calculatedStats.SurvivabilityPoints;
             calculatedStats.DodgedAttacks = cs.AverageDodge * 100f;
@@ -618,6 +647,7 @@ namespace Rawr.Enhance
             calculatedStats.Trinket1Uptime = se.GetUptime(character.Trinket1) * 100f;
             calculatedStats.Trinket2Uptime = se.GetUptime(character.Trinket2) * 100f;
             calculatedStats.FireTotemUptime = cs.FireTotemUptime * 100f;
+            calculatedStats.ProcDamage = dpsSE;
             
             calculatedStats.TotalExpertiseMH = (float) Math.Floor(cs.ExpertiseBonusMH * 400f);
             calculatedStats.TotalExpertiseOH = (float) Math.Floor(cs.ExpertiseBonusOH * 400f);
@@ -928,14 +958,7 @@ namespace Rawr.Enhance
             {
                 if (HasRelevantTrigger(effect.Trigger))
                 {
-                    if (relevantStats(effect.Stats))
-                        s.AddSpecialEffect(effect);
-                    else 
-                    {
-                        foreach (SpecialEffect subEffect in effect.Stats.SpecialEffects())
-                            if (HasRelevantTrigger(subEffect.Trigger) && relevantStats(subEffect.Stats))
-                                s.AddSpecialEffect(effect);
-                    }
+                    s.AddSpecialEffect(effect);
                 }
             }
             return s;
