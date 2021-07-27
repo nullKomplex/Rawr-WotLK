@@ -414,6 +414,8 @@ namespace Rawr
                 itemButtonWaist.UpdateSelectedItem(); itemButtonMainHand.UpdateSelectedItem(); itemButtonOffHand.UpdateSelectedItem();
                 itemButtonProjectile.UpdateSelectedItem(); itemButtonProjectileBag.UpdateSelectedItem(); itemButtonWrist.UpdateSelectedItem();
                 //ItemEnchantsChanged();
+
+                UpdateDisplayGearValues();
             }
 
             //and the clouds above move closer / looking so dissatisfied
@@ -454,6 +456,12 @@ namespace Rawr
                 //status = "Rawr version " + typeof(Calculations).Assembly.GetName().Version.ToString();
             }
             toolStripStatusLabel.Text = status;
+        }
+
+        public void UpdateDisplayGearValues()
+        {
+            string gear = "Average Item Level: " + Math.Round(Character.Ilvl, 2) + ", Gear Score: " + Math.Round(Character.GS);
+            toolStripGearLabel.Text = gear;
         }
 
         public void LoadModel(string displayName)

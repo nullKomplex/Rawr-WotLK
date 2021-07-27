@@ -2482,6 +2482,63 @@ namespace Rawr //O O . .
         {
             return null;
         }
+
+        [XmlElement("GearScore")]
+        private float _averageilvl;
+        private float _gearscore;
+        public bool test = true;
+        private void CalculateIlvl()
+        {
+            float total = 0;
+            int count = 0;
+
+            for (int i = 0; i < _item.Length; i++)
+            {
+                if (_item[i] != null) // && _item[i].Slot != ItemSlot.Tabard && _item[i].Slot != ItemSlot.Shirt)
+                {
+                    total += _item[i].Item.ItemLevel;
+                    count++;
+                }
+            }
+
+            if (count != 0)
+                _averageilvl = total / count;
+            else
+                _averageilvl = 0;
+        }
+
+        public float Ilvl
+        {
+            get
+            {
+                CalculateIlvl();
+                return _averageilvl;
+            }
+        }
+
+        private void CalculateGearScore()
+        {
+            float total = 0;
+
+            for (int i = 0; i < _item.Length; i++)
+            {
+                if (_item[i] != null) // && _item[i].Slot != ItemSlot.Tabard && _item[i].Slot != ItemSlot.Shirt)
+                {
+                    total += GearScore.GetGearScore(_item[i].Item);
+                }
+            }
+
+            _gearscore = total;
+        }
+
+        public float GS
+        {
+            get
+            {
+                CalculateGearScore();
+                return _gearscore;
+            }
+        }
     }
 
     public interface ICalculationOptionBase

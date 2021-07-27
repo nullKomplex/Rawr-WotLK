@@ -146,6 +146,7 @@
     <Compile Include="EnumHelper.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Exports.cs" />
+    <Compile Include="GearScore.cs" />
     <Compile Include="Graph.cs">
       <SubType>Form</SubType>
     </Compile>
