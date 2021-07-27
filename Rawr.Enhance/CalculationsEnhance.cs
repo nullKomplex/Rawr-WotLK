@@ -595,9 +595,11 @@ namespace Rawr.Enhance
             Dictionary<Trigger, float> triggerChances = new Dictionary<Trigger, float>();
             se.CalculateTriggers(character, triggerIntervals, triggerChances);
             DamageProcs.SpecialDamageProcs SDP;
-            SDP = new Rawr.DamageProcs.SpecialDamageProcs(character, stats, calculatedStats.TargetLevel - character.Level,
-                new List<SpecialEffect>(stats.SpecialEffects()),
-                triggerIntervals, triggerChances,
+            if (character.MainHand != null)
+            {
+                SDP = new DamageProcs.SpecialDamageProcs(character, stats, calculatedStats.TargetLevel - character.Level,
+                    new List<SpecialEffect>(stats.SpecialEffects()),
+                    triggerIntervals, triggerChances,
 #if RAWR3 || SILVERLIGHT
                     bossOpts.BerserkTimer,
 #else
@@ -605,7 +607,8 @@ namespace Rawr.Enhance
 #endif
                     cs.DamageReduction);
 
-            dpsSE = SDP.CalculateAll();
+                dpsSE = SDP.CalculateAll();
+            }
             /*dpsSE += SDP.Calculate(ItemDamageType.Physical);
             dpsSE += SDP.Calculate(ItemDamageType.Shadow);
             dpsSE += SDP.Calculate(ItemDamageType.Holy);
