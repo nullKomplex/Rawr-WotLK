@@ -461,7 +461,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -569,6 +569,8 @@
     <Content Include="Resources\Diamond2.png" />
     <Content Include="Resources\Diamond3.png" />
     <Content Include="Resources\Diamond4.png" />
+    <Content Include="Resources\grey_inv_misc_questionmark.jpg" />
+    <Content Include="Resources\inv_misc_questionmark.jpg" />
     <Content Include="Resources\RawrStart.1.png" />
     <Content Include="Resources\RawrStart.2.png" />
     <Content Include="Resources\RawrStart.3.png" />

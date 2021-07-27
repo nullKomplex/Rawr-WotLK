@@ -673,14 +673,15 @@ namespace Rawr
             //occasionally a zero byte file slips through without throwing an exception
 			if (!File.Exists(localPath) || new FileInfo(localPath).Length <= 0)
 			{
-				do
+                if (!Directory.Exists(Path.GetDirectoryName(localPath)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(localPath));
+                }
+                /*do
 				{
 					if (!LastWasFatalError)
 					{
-						if (!Directory.Exists(Path.GetDirectoryName(localPath)))
-						{
-							Directory.CreateDirectory(Path.GetDirectoryName(localPath));
-						}
+						
 						using (WebClient client = CreateWebClient())
 						{
 							try
@@ -709,7 +710,7 @@ namespace Rawr
 							}
 						}
 					}
-				} while (retry <= RETRY_MAX && !success && !LastWasFatalError);
+				} while (retry <= RETRY_MAX && !success && !LastWasFatalError);*/
 			}
 		}
 

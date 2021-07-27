@@ -197,6 +197,10 @@
       <Project>{842B74C7-EE94-44D9-A02F-4074166EF506}</Project>
       <Name>Rawr.Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Rawr.csproj">
+      <Project>{a0f124ab-2a3c-488c-a8ab-38fc5444cb37}</Project>
+      <Name>Rawr</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\bgCunning.jpg" />

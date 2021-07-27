@@ -145,14 +145,14 @@ namespace Rawr
 
                     if (pathToIcon == null)
                     {
-                        pathToIcon = wrapper.DownloadTempImage();
+                        //pathToIcon = wrapper.DownloadTempImage();
                     }
                 }
                 catch (Exception)
                 {
                     try
                     {
-                        pathToIcon = wrapper.DownloadTempImage();
+                        //pathToIcon = wrapper.DownloadTempImage();
                     }
                     catch (Exception)
                     {
@@ -177,7 +177,7 @@ namespace Rawr
                         {
                             returnImage = null;
                             //possibly still downloading, give it a second
-                            Thread.Sleep(TimeSpan.FromSeconds(1));
+                            /*Thread.Sleep(TimeSpan.FromSeconds(1));
                             if (retry >= 3)
                             {
                                 //log.Error("Exception trying to load an icon from local", ex);
@@ -188,12 +188,12 @@ namespace Rawr
                                 #if DEBUG
                                 throw;
                                 #endif
-                            }
+                            }*/
                         }
                         retry++;
-                    } while (returnImage == null && retry < 5);
+                    } while (returnImage == null && retry < 1);
 
-                    if (returnImage != null)
+                    /*if (returnImage != null)
                     {
                         if (small)
                         {
@@ -204,9 +204,25 @@ namespace Rawr
                         {
                             LargeIcons.Images.Add(iconName, returnImage);
                         }
-                    }
+                    }*/
                 }
-            }
+				if (returnImage == null && pathToIcon == null)
+				{
+					if (iconName.StartsWith("grey"))
+						returnImage = Properties.Resources.grey_missing_icon;
+					else
+						returnImage = Properties.Resources.missing_icon;
+				}
+				if (small)
+				{
+					returnImage = ScaleByPercent(returnImage, 50);
+					SmallIcons.Images.Add(iconName, returnImage);
+				}
+				else
+				{
+					LargeIcons.Images.Add(iconName, returnImage);
+				}
+			}
             return returnImage;
         }
 
@@ -232,7 +248,7 @@ namespace Rawr
 
 					if (pathToIcon == null)
 					{
-						pathToIcon = wrapper.DownloadTempImage();
+						//pathToIcon = wrapper.DownloadTempImage();
 					}
 				}
 				catch (Exception /*ex*/)
@@ -241,7 +257,7 @@ namespace Rawr
                         ex.Message, "GetTalentIcon(...)",
                         string.Format("\r\n- Talent Tree: {0}\r\n- Talent Name: {1}\r\n- Icon: {2}\r\n- PathToIcon: {3}", talentTree, talentName, icon, pathToIcon ?? (pathToIcon = "null")),
                         ex.StackTrace);*/
-                    pathToIcon = wrapper.DownloadTempImage();
+                    //pathToIcon = wrapper.DownloadTempImage();
                     //Log.Write(ex.Message);
 					//Log.Write(ex.StackTrace);
 					//log.Error("Exception trying to retrieve an icon from the armory", ex);
@@ -262,7 +278,7 @@ namespace Rawr
 						{
 							returnImage = null;
 							//possibly still downloading, give it a second
-							Thread.Sleep(TimeSpan.FromSeconds(1));
+							/*Thread.Sleep(TimeSpan.FromSeconds(1));
 							if (retry >= 3)
 							{
 								//log.Error("Exception trying to load an icon from local", ex);
@@ -273,17 +289,27 @@ namespace Rawr
 #if DEBUG
 								throw;
 #endif
-							}
+							}*/
 						}
 						retry++;
-					} while (returnImage == null && retry < 5);
+					} while (returnImage == null && retry < 1);
 
-					if (returnImage != null)
+					/*if (returnImage != null)
 					{
 						returnImage = Offset(returnImage, new Size(4, 4));
 						TalentIcons.Images.Add(key, returnImage);
-					}
+					}*/
 				}
+				if (returnImage == null && pathToIcon == null)
+				{
+					if (icon.StartsWith("grey"))
+						returnImage = Properties.Resources.grey_missing_icon;
+					else
+						returnImage = Properties.Resources.missing_icon;
+				}
+
+				returnImage = Offset(returnImage, new Size(4, 4));
+				TalentIcons.Images.Add(key, returnImage);
 			}
 			return returnImage;
 		}
@@ -310,7 +336,7 @@ namespace Rawr
 
 					if (pathToIcon == null)
 					{
-						pathToIcon = wrapper.DownloadTempImage();
+						//pathToIcon = wrapper.DownloadTempImage();
 					}
 				}
 				catch (Exception)
@@ -335,7 +361,7 @@ namespace Rawr
 						{
 							returnImage = null;
 							//possibly still downloading, give it a second
-							Thread.Sleep(TimeSpan.FromSeconds(1));
+							/*Thread.Sleep(TimeSpan.FromSeconds(1));
 							if (retry >= 3)
 							{
 								//log.Error("Exception trying to load an icon from local", ex);
@@ -346,16 +372,22 @@ namespace Rawr
 #if DEBUG
 								throw;
 #endif
-							}
+							}*/
 						}
 						retry++;
-					} while (returnImage == null && retry < 5);
+					} while (returnImage == null && retry < 1);
 
-					if (returnImage != null)
+					/*if (returnImage != null)
 					{
 						TalentTreeBackgrounds.Add(key, returnImage);
-					}
+					}*/
 				}
+
+				if (returnImage == null && pathToIcon == null)
+				{
+					returnImage = Properties.Resources.Rawr_Splash_ModelBackground;
+				}
+				TalentTreeBackgrounds.Add(key, returnImage);
 			}
 			return returnImage;
 		}
