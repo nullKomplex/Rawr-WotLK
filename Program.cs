@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Rawr
@@ -21,6 +22,15 @@ namespace Rawr
 				System.Threading.Mutex oMutex = new System.Threading.Mutex(true, "Global\\Rawr-" + AppDomain.CurrentDomain.BaseDirectory.Replace('\\','|'), out bAppFirstInstance);
 				if (bAppFirstInstance)
 				{
+					string path = AppDomain.CurrentDomain.BaseDirectory;
+					string[] files = Directory.GetFiles(path);
+					foreach(string file in files)
+					{
+						if (file.EndsWith(".dll"))
+						{
+							File.Move(file, file + ".old");
+						}
+					}
 					//RawrCatIntro();
 					Application.EnableVisualStyles();
 					Application.SetCompatibleTextRenderingDefault(false);
