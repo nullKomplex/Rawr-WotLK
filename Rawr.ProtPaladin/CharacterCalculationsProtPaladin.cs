@@ -310,7 +310,6 @@ namespace Rawr.ProtPaladin
                 case "% Chance to be Missed": return MissedAttacks * 100.0f;
                 case "% Chance to be Dodged": return DodgedAttacks * 100.0f;
                 case "% Chance to be Parried": return ParriedAttacks * 100.0f;
-                // case "% Hit Chance": return Hit * 100.0f;
                 case "% Spell Hit Chance": return SpellHit * 100.0f;
                 case "Burst Time": return BurstTime;
                 case "TankPoints": return TankPoints;
@@ -320,6 +319,8 @@ namespace Rawr.ProtPaladin
                 case "Shadow Survival": return ShadowSurvivalPoints;
                 case "Arcane Survival": return ArcaneSurvivalPoints;
                 case "Threat Per Second": return ThreatPerSecond;
+                case "% Hit": return (Hit * 100.0f) - 92f;
+                case "% Expertise": return Expertise * 100.0f;
             }
             return 0.0f;
         }
