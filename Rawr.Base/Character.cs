@@ -661,7 +661,7 @@ namespace Rawr //O O . .
             // Next let's check for Heroic Presence. If you are a Draenei and don't have it, you need it
             if (Race == CharacterRace.Draenei && !ActiveBuffsContains("Heroic Presence")) { ActiveBuffsAdd("Heroic Presence"); }
             // If you are Horde, you will never have this so let's take it out
-            if (Faction == CharacterFaction.Horde && ActiveBuffsContains("Heroic Presence")) ActiveBuffs.Remove(Buff.GetBuffByName("Heroic Presence"));
+            //if (Faction == CharacterFaction.Horde && ActiveBuffsContains("Heroic Presence")) ActiveBuffs.Remove(Buff.GetBuffByName("Heroic Presence"));
 
             // Finally, let's check Profession Buffs that should be automatically applied
             // Toughness buff from Mining
@@ -940,7 +940,7 @@ namespace Rawr //O O . .
                 _faction = CharacterFaction.Horde;
 
                 // horde don't get heroic presence muahahaha
-                ActiveBuffs.RemoveAll(b => b.Name == "Heroic Presence");
+                //ActiveBuffs.RemoveAll(b => b.Name == "Heroic Presence");
             }
         }
          

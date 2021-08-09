@@ -285,8 +285,8 @@ namespace Rawr
 				//Buff buff = checkBox.Tag as Buff;
                 Buff buff = (Buff) checkBox.Tag;
                 if (Character != null && buff.Name == "Heroic Presence") {
-                    if (Character.Race == CharacterRace.Draenei ||
-                        Character.Faction == CharacterFaction.Horde)
+                    if (Character.Race == CharacterRace.Draenei) //||
+                        //Character.Faction == CharacterFaction.Horde)
                     {
                         checkBox.Enabled = false;
                         continue;
