@@ -250,13 +250,13 @@ namespace Rawr
 
                             if (Properties.GeneralSettings.Default.DisplayExtraItemInfo) {
                                                                                     typesText += string.Format("[{0}] ", CurrentItem.Id);
-                                if (CurrentItem.ItemLevel > 0) {                    typesText += string.Format("[{0}] ", CurrentItem.ItemLevel); }
+                                if (CurrentItem.ItemLevel > 0) {                    typesText += string.Format("[{0}] [{1}] ", CurrentItem.ItemLevel, CurrentItem.GearScore); }
                                 if (CurrentItem.Bind != BindsOn.None) {             typesText += string.Format("[{0}] ", CurrentItem.Bind); }
                                 if (!string.IsNullOrEmpty(CurrentItem.SlotString)) {typesText += string.Format("[{0}] ", CurrentItem.SlotString); }
                                 if (CurrentItem.Type != ItemType.None) {            typesText += string.Format("[{0}] ", CurrentItem.Type); }
                             }else{
                                 // Just do the iLevel so we can differentiate the Heroic vs non-Heroic versions of items
-                                if (CurrentItem.ItemLevel > 0) { typesText += string.Format(" [{0}]", CurrentItem.ItemLevel); }
+                                if (CurrentItem.ItemLevel > 0) { typesText += string.Format(" [{0}] [{1}]", CurrentItem.ItemLevel, CurrentItem.GearScore); }
                             }
 
                             // check if we added some and join the text for drawing

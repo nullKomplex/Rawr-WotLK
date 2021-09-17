@@ -183,7 +183,13 @@ namespace Rawr
 				_itemLevel = value;
 			}
 		}
-        [XmlIgnore]
+		[XmlIgnore]
+		public int GearScore
+		{
+			get { return Rawr.GearScore.GetGearScore(this); }
+			set	{}
+		}
+		[XmlIgnore]
         public int DisplayId
         {
             get { return _displayId; }
