@@ -618,7 +618,7 @@ namespace Rawr.Moonkin
 
             // All spells: Spell Power + (0.5 * Imp Moonkin) * Spirit
             float spellDamageFromSpiritPercent = 0.0f;
-            if (character.DruidTalents.MoonkinForm > 0 && character.ActiveBuffsContains("Moonkin Form"))
+            if (character.DruidTalents.MoonkinForm > 0) //&& character.ActiveBuffsContains("Moonkin Form"))
             {
                 spellDamageFromSpiritPercent = 0.1f * character.DruidTalents.ImprovedMoonkinForm;
             }
