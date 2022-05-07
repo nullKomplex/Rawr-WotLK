@@ -203,6 +203,8 @@
       <value>
         <ArrayOfItemType>
           <ItemType>Plate</ItemType>
+          <ItemType>Mail</ItemType>
+          <ItemType>Leather</ItemType>
           <ItemType>Polearm</ItemType>
           <ItemType>TwoHandAxe</ItemType>
           <ItemType>TwoHandMace</ItemType>
