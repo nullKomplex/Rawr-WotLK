@@ -32,7 +32,7 @@ namespace Rawr.Elemental.Spells
             crit += .05f * args.Talents.CallOfThunder;
             spCoef += .04f * args.Talents.Shamanism;
             loCoef += .04f * args.Talents.Shamanism;
-            crit += .05f * args.Talents.TidalMastery;
+            crit += .01f * args.Talents.TidalMastery;
             manaCost *= 1 - args.Stats.LightningBoltCostReduction / 100f; // T7 2 piece
             spellPower += args.Stats.SpellNatureDamageRating; // Nature SP
             lightningSpellpower += args.Stats.LightningSpellPower; // Totem (relic) is not affected by shamanism
