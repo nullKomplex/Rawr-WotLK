@@ -2851,8 +2851,10 @@ Focused Aim 3 - 8%-3%=5%=164 Rating soft cap",
                         12f, 0f, 0.10f);
                     statsTalents.AddSpecialEffect(QuickShots);
                 }
-                if (calcOpts.SelectedAspect == Aspect.Hawk || (calcOpts.SelectedAspect == Aspect.Dragonhawk && talents.AspectMastery > 0)) {
+                if (calcOpts.SelectedAspect == Aspect.Hawk) {
                     statsOptionsPanel.RangedAttackPower += 155f * (1f + talents.AspectMastery * 0.30f);
+                } else if (calcOpts.SelectedAspect == Aspect.Dragonhawk){
+                    statsOptionsPanel.RangedAttackPower += 300f * (1f + talents.AspectMastery * 0.30f);
                 }
 #if RAWR3 || SILVERLIGHT
                 if (petTalents.CallOfTheWild > 0) {
