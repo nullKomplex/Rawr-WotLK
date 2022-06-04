@@ -603,7 +603,7 @@ namespace Rawr.Enhance
 #if RAWR3 || SILVERLIGHT
                     bossOpts.BerserkTimer,
 #else
-                    calcOpts.FightLength,
+                    calcOpts.FightLength * 60f,
 #endif
                     cs.DamageReduction);
 
